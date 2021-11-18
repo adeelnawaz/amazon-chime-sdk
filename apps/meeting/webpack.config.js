@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: MIT-0
 
 const path = require('path');
-const InlineChunkHtmlPlugin = require('react-dev-utils/InlineChunkHtmlPlugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const app = 'meeting';
@@ -38,32 +37,37 @@ module.exports = {
     fallback: {
       fs: false,
       tls: false,
-    }
+    },
   },
   output: {
     path: path.join(__dirname, 'dist'),
     filename: `${app}-bundle.js`,
     publicPath: '/',
     libraryTarget: 'var',
-    library: `app_${app}`
+    library: `app_${app}`,
   },
   plugins: [
     new HtmlWebpackPlugin({
       inlineSource: '.(js|css)$',
       template: __dirname + `/app/${app}.html`,
       filename: __dirname + `/dist/${app}.html`,
-      inject: 'head'
+      inject: 'head',
     }),
-    new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [new RegExp(`${app}`)]),
   ],
   devServer: {
     proxy: {
       '/': {
-        target: 'http://localhost:8080',
+        target: 'http://127.0.0.1:8080',
+        bypass: function (req, _res, _proxyOptions) {
+          if (req.headers.accept.indexOf('html') !== -1) {
+            console.log('Skipping proxy for browser request.');
+            return `/${app}.html`;
+          }
+        },
       }
     },
     static: {
-      directory: path.join(__dirname, 'dist')
+      directory: path.join(__dirname, 'dist'),
     },
     devMiddleware: {
       index: `${app}.html`,
@@ -72,12 +76,11 @@ module.exports = {
     client: {
       overlay: false,
     },
-    liveReload: true,
     hot: false,
     host: '0.0.0.0',
     port: 9000,
     https: true,
     historyApiFallback: true,
     open: true,
-  }
+  },
 };
