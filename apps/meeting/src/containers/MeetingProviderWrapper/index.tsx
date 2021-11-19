@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT-0
 
 import React from 'react';
-import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import {
   BackgroundBlurProvider,
   MeetingProvider,
@@ -10,15 +10,15 @@ import {
 } from 'amazon-chime-sdk-component-library-react';
 
 import routes from '../../constants/routes';
-import { NavigationProvider } from '../../providers/NavigationProvider';
+import {NavigationProvider} from '../../providers/NavigationProvider';
 import NoMeetingRedirect from '../NoMeetingRedirect';
-import { Meeting, Home, DeviceSetup } from '../../views';
+import {Meeting, Home, DeviceSetup} from '../../views';
 import MeetingEventObserver from '../MeetingEventObserver';
 import meetingConfig from '../../meetingConfig';
-import { useAppState } from '../../providers/AppStateProvider';
+import {useAppState} from '../../providers/AppStateProvider';
 
 const MeetingProviderWrapper: React.FC = () => {
-  const { isWebAudioEnabled, isBackgroundBlurEnabled } = useAppState();
+  const {isWebAudioEnabled, isBackgroundBlurEnabled} = useAppState();
 
   const meetingConfigValue = {
     ...meetingConfig,
@@ -29,23 +29,21 @@ const MeetingProviderWrapper: React.FC = () => {
     return (
       <MeetingProvider {...meetingConfigValue}>
         <NavigationProvider>
-          <BrowserRouter basename='/chime'>
-            <Switch>
-              <Route exact path={routes.HOME} component={Home} />
-              <Route path={routes.DEVICE}>
-                <NoMeetingRedirect>
-                  <DeviceSetup />
-                </NoMeetingRedirect>
-              </Route>
-              <Route path={routes.MEETING}>
-                <NoMeetingRedirect>
-                  <MeetingModeSelector />
-                </NoMeetingRedirect>
-              </Route>
-            </Switch>
-          </BrowserRouter>
+          <Switch>
+            <Route exact path={routes.HOME} component={Home}/>
+            <Route path={routes.DEVICE}>
+              <NoMeetingRedirect>
+                <DeviceSetup/>
+              </NoMeetingRedirect>
+            </Route>
+            <Route path={routes.MEETING}>
+              <NoMeetingRedirect>
+                <MeetingModeSelector/>
+              </NoMeetingRedirect>
+            </Route>
+          </Switch>
         </NavigationProvider>
-        <MeetingEventObserver />
+        <MeetingEventObserver/>
       </MeetingProvider>
     );
   };
@@ -66,7 +64,7 @@ const MeetingProviderWrapper: React.FC = () => {
     );
   };
 
-  const getMeetingProviderWithFeatures = () : React.ReactNode => {
+  const getMeetingProviderWithFeatures = (): React.ReactNode => {
     let children = getMeetingProviderWrapper();
     if (isWebAudioEnabled) {
       children = getMeetingProviderWrapperWithVF(children);
@@ -85,9 +83,9 @@ const MeetingProviderWrapper: React.FC = () => {
 };
 
 const MeetingModeSelector: React.FC = () => {
-  const { meetingMode } = useAppState();
+  const {meetingMode} = useAppState();
 
-  return <Meeting mode={meetingMode} />;
+  return <Meeting mode={meetingMode}/>;
 };
 
 export default MeetingProviderWrapper;

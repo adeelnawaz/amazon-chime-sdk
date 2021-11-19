@@ -16,20 +16,23 @@ import ErrorProvider from './providers/ErrorProvider';
 import Notifications from './containers/Notifications';
 import MeetingProviderWrapper from './containers/MeetingProviderWrapper';
 
-const App: FC = () => (
-  <Router>
-    <AppStateProvider>
-      <Theme>
-        <NotificationProvider>
-          <Notifications />
-          <ErrorProvider>
-            <MeetingProviderWrapper />
-          </ErrorProvider>
-        </NotificationProvider>
-      </Theme>
-    </AppStateProvider>
-  </Router>
-);
+const App: FC = () => {
+  console.log('app loaded')
+  return (
+    <Router basename='/chime'>
+      <AppStateProvider>
+        <Theme>
+          <NotificationProvider>
+            <Notifications />
+            <ErrorProvider>
+              <MeetingProviderWrapper />
+            </ErrorProvider>
+          </NotificationProvider>
+        </Theme>
+      </AppStateProvider>
+    </Router>
+  )
+};
 
 const Theme: React.FC = ({ children }) => {
   const { theme } = useAppState();
