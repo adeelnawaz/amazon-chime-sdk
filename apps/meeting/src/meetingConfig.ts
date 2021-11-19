@@ -32,7 +32,7 @@ export const priorityBasedPolicy = new VideoPriorityBasedPolicy(logger);
 
 const config = {
   logLevel,
-  simulcastEnabled: false,
+  simulcastEnabled: true,
   postLogConfig,
   logger,
   videoDownlinkBandwidthPolicy: priorityBasedPolicy,
