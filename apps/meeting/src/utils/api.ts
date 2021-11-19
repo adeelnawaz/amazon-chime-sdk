@@ -3,7 +3,7 @@
 
 import routes from '../constants/routes';
 
-export const BASE_URL = routes.HOME;
+export const BASE_URL = `${routes.HOME}chime/`;
 
 interface MeetingResponse {
   JoinInfo: {

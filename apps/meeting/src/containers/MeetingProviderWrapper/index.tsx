@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT-0
 
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import {
   BackgroundBlurProvider,
   MeetingProvider,
@@ -29,19 +29,21 @@ const MeetingProviderWrapper: React.FC = () => {
     return (
       <MeetingProvider {...meetingConfigValue}>
         <NavigationProvider>
-          <Switch>
-            <Route exact path={routes.HOME} component={Home} />
-            <Route path={routes.DEVICE}>
-              <NoMeetingRedirect>
-                <DeviceSetup />
-              </NoMeetingRedirect>
-            </Route>
-            <Route path={routes.MEETING}>
-              <NoMeetingRedirect>
-                <MeetingModeSelector />
-              </NoMeetingRedirect>
-            </Route>
-          </Switch>
+          <BrowserRouter basename='/chime'>
+            <Switch>
+              <Route exact path={routes.HOME} component={Home} />
+              <Route path={routes.DEVICE}>
+                <NoMeetingRedirect>
+                  <DeviceSetup />
+                </NoMeetingRedirect>
+              </Route>
+              <Route path={routes.MEETING}>
+                <NoMeetingRedirect>
+                  <MeetingModeSelector />
+                </NoMeetingRedirect>
+              </Route>
+            </Switch>
+          </BrowserRouter>
         </NavigationProvider>
         <MeetingEventObserver />
       </MeetingProvider>

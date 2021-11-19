@@ -16,7 +16,7 @@ const BASE_URL: string = [
   location.protocol,
   '//',
   location.host,
-  location.pathname.replace(/\/*$/, '/'),
+  location.pathname.replace(/\/*$/, '/chime/'),
 ].join('');
 
 const postLogConfig = {
